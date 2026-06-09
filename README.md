@@ -29,6 +29,8 @@ A arcade style Top Down Shooter inspired by games like Vampire Survivors and Swa
    ```bash
    git clone [https://github.com/Riptide005/Top-Down-Shooter](https://github.com/Riptide005/Top-Down-Shooter.git)
 
+Alternately you can get the zip file from the releases and unzip it then run the main.exe file make sure to keep the assets folder in the same directory as your exe
+
 ## 🎨 Credits & Attributions
 
 Special thanks to the creators who provided the visual assets for this project:
