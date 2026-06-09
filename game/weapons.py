@@ -5,7 +5,7 @@ class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y, dx, dy):
         
         super() .__init__()
-        self.raw_image = pygame.image.load("assets/sprites/shot.png").convert_alpha()
+        self.raw_image = pygame.image.load("dist/assets/sprites/shot.png").convert_alpha()
         self.original_image = pygame.transform.scale(self.raw_image, (9,32))
         
         if dx != 0 or dy != 0: 
@@ -15,6 +15,7 @@ class Bullet(pygame.sprite.Sprite):
             self.image = self.original_image
         
         self.rect = self.image.get_rect(center = (x, y))
+        self.hitbox = self.rect.inflate(-4, -4)
         
         self.pos_x = float(x)
         self.pos_y = float(y)
@@ -33,15 +34,17 @@ class Bullet(pygame.sprite.Sprite):
             self.pos_y += self.dy * self.speed
             self.rect.centerx = int(self.pos_x)
             self.rect.centery = int(self.pos_y)
+            
+            self.hitbox.center = self.rect.center
 
-        if not (-50 < self.rect.centerx < 850 and -50 < self.rect.centery < 650):
+        if not (-50 < self.hitbox.centerx < 850 and -50 < self.hitbox.centery < 650):
             self.kill()
         
 class Explosion(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
         
-        self.raw_image = pygame.image.load("assets/sprites/Explosion.png")
+        self.raw_image = pygame.image.load("dist/assets/sprites/Explosion.png")
         self.radius = 20
         self.max_radius = 200
         self.growth_rate = 10
@@ -51,6 +54,7 @@ class Explosion(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center = (x, y))
         
     def update(self, *args):
+        
         self.radius += self.growth_rate
         
         if self.radius >= self.max_radius:

@@ -4,13 +4,14 @@ import math
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        raw_image = pygame.image.load("assets/sprites/Player.png").convert_alpha()
+        raw_image = pygame.image.load("dist/assets/sprites/Player.png").convert_alpha()
         self.original_image = pygame.transform.scale(raw_image, (64,64))
         self.image = self.original_image
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.speed = 5
         
+        self.hitbox = self.rect.inflate(-30,-20)
         self.score = 0
         self.lives = 3
         
@@ -18,7 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.facing_dy = 1
         
         self.last_shot_time = -100
-        self.shoot_cd = 100
+        self.shoot_cd = 200
         
         self.last_explode_time = -500
         self.explode_cd = 5000
@@ -53,10 +54,10 @@ class Player(pygame.sprite.Sprite):
             self.facing_dx = dx
             self.facing_dy = dy
             angle = math.degrees(math.atan2(dx, dy))
-            old_center = self.rect.center
+            self.hitbox.center = self.rect.center
             self.image = pygame.transform.rotate(self.original_image, angle)
             self.rect = self.image.get_rect()
-            self.rect.center = old_center
+            self.rect.center = self.hitbox.center
             
         if self.rect.y < 0:
                 self.rect.y = Height
