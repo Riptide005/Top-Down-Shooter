@@ -89,7 +89,41 @@ def game_running(screen, player, enemies, bullets, explosion):
         return "GAME_OVER"  
     return "PLAYING"
 
+def reset_game(player, enemies, bullets, explosions, screen):
+    enemies.empty()
+    bullets.empty()
+    explosions.empty()
+    
+    player.lives = 3
+    player.score = 0
+    
+    player.rect.center = (Width // 2, Height // 2)
 
+def show_game_over(screen, player, enemies, bullets, explosions, events):
+    screen.fill((50, 10, 10)) 
+    
+    over_text = font_large.render("GAME OVER", True, (255, 50, 50))
+    score_text = font_medium.render(f"Final Score: {player.score}", True, (255, 255, 255))
+    retry_text = font_small.render("Press 'R' to Retry or 'ESC' to Quit", True, (200, 200, 200))
+    
+    center_x = screen.get_width() // 2
+    screen.blit(over_text, over_text.get_rect(center=(center_x, 200)))
+    screen.blit(score_text, score_text.get_rect(center=(center_x, 260)))
+    screen.blit(retry_text, retry_text.get_rect(center=(center_x, 320)))
+    
+    pygame.display.flip()
+    
+    for event in events:
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_r:
+                reset_game(player, enemies, bullets, explosions, screen)
+                return "PLAYING"
+            elif event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
+                
+    return "GAME_OVER"
+    
 def enemy_spawner(): 
     
     if np.random.randint(0,51) == 50:
@@ -150,7 +184,7 @@ while running:
     elif game_mode == "PLAYING":
         game_mode = game_running(screen, player, enemies, bullets, explosions)
     elif game_mode == "GAME_OVER":
-        game_mode = "START_MENU"
+        game_mode = show_game_over(screen, player, enemies, bullets, explosions, current_events)
 
 pygame.quit()
 sys.exit()
