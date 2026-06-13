@@ -5,7 +5,7 @@ class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y, dx, dy):
         
         super() .__init__()
-        self.raw_image = pygame.image.load("dist/assets/sprites/shot.png").convert_alpha()
+        self.raw_image = pygame.image.load("assets/sprites/shot.png").convert_alpha()
         self.original_image = pygame.transform.scale(self.raw_image, (9,32))
         
         if dx != 0 or dy != 0: 
@@ -44,7 +44,7 @@ class Explosion(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
         
-        self.raw_image = pygame.image.load("dist/assets/sprites/Explosion.png")
+        self.raw_image = pygame.image.load("assets/sprites/Explosion.png")
         self.radius = 20
         self.max_radius = 200
         self.growth_rate = 10
